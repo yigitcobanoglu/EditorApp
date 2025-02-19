@@ -1,14 +1,49 @@
+using System.Drawing.Drawing2D;
+using System.Text.Json;
+
 namespace EditorApp
 {
     public partial class Form1 : Form
     {
         string dosyaAdi;//editördeki dosyanýn adý
-
+        Ayarlar ayarlar = new Ayarlar();
         public Form1()
         {
             InitializeComponent();
 
+            AyarlariYukle();
+
             YeniBelge();//uygulama ilkçalýþtýðýnda yeni belge oluþtursun
+        }
+        void AyarlariYukle()
+        {
+            if (File.Exists("ayarlar.txt"))
+            {
+                string jsonMetni = File.ReadAllText("ayarlar.txt");
+                //tam tersine serileþtirme yap
+                //metni sýnýfa dönüþtür 
+                ayarlar = JsonSerializer.Deserialize<Ayarlar>(jsonMetni);
+                Color yaziRengi = Color.FromArgb(ayarlar.YaziRengi);
+                yaziRengi = Color.FromArgb(255, yaziRengi);
+
+                Color arkaRengi = Color.FromArgb(ayarlar.ArkaplanRengi);
+                arkaRengi = Color.FromArgb(255, arkaRengi);
+                txtBelge.ForeColor = yaziRengi;
+                txtBelge.BackColor = arkaRengi;
+
+                toolStrip1.BackColor = txtBelge.BackColor;
+                toolStrip1.ForeColor = txtBelge.ForeColor;
+                menuStrip1.BackColor = txtBelge.BackColor;
+                menuStrip1.ForeColor = txtBelge.ForeColor;
+            }
+        }
+        void AyarlariKaydet()
+        {
+            //Serileþtirme sýnýfý verisini metne dönüþtürme 
+            //json serileþtirmeyi kullan 
+            string jsonMetni = JsonSerializer.Serialize(ayarlar);
+
+            File.WriteAllText("ayarlar.txt", jsonMetni);
         }
 
         void YeniBelge()
@@ -118,6 +153,67 @@ namespace EditorApp
             FrmBul form = new FrmBul(txtBelge);//Formun nesnesini oluþtur
             form.Show();//formu göster
             //form.ShowDialog();//formu diyalog olarak göster
+        }
+
+        private void miYaziTipi_Click(object sender, EventArgs e)
+        {
+            FontDialog dialog = new FontDialog();
+            DialogResult cevap = dialog.ShowDialog();
+            if (cevap == DialogResult.OK)
+            {
+                txtBelge.Font = dialog.Font;
+            }
+        }
+
+        private void miYaziRengi_Click(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            DialogResult cevap = dialog.ShowDialog();
+            if (cevap == DialogResult.OK)
+            {
+                txtBelge.ForeColor = dialog.Color;
+                ayarlar.YaziRengi = txtBelge.ForeColor.ToArgb();
+                AyarlariKaydet();
+            }
+        }
+
+        private void miKoyuTema_Click(object sender, EventArgs e)
+        {
+            txtBelge.BackColor = Color.Gray;
+            txtBelge.ForeColor = Color.White;
+            toolStrip1.BackColor = Color.Gray;
+            toolStrip1.ForeColor = Color.White;
+            menuStrip1.BackColor = Color.Gray;
+            menuStrip1.ForeColor = Color.White;
+            statusStrip1.BackColor = Color.Gray;
+            statusStrip1.ForeColor = Color.White;
+            ayarlar.ArkaplanRengi = Color.Black.ToArgb();
+            ayarlar.YaziRengi = Color.Black.ToArgb();
+            AyarlariKaydet();
+
+
+        }
+
+        private void miAcikTema_Click(object sender, EventArgs e)
+        {
+            txtBelge.BackColor = Color.LightGray;
+            txtBelge.ForeColor = Color.Black;
+            toolStrip1.BackColor = Color.SkyBlue;
+            toolStrip1.ForeColor = Color.Black;
+            menuStrip1.BackColor = Color.Azure;
+            menuStrip1.ForeColor = Color.Black;
+            statusStrip1.BackColor = Color.LightCyan;
+            statusStrip1.ForeColor = Color.Gray;
+            ayarlar.ArkaplanRengi = Color.White.ToArgb();
+            ayarlar.YaziRengi = Color.Black.ToArgb();
+            AyarlariKaydet();
+        }
+
+        private void tsbHakkimda_Click(object sender, EventArgs e)
+        {
+            FrmHakkimda form = new();
+            form.ShowDialog();
+            
         }
     }
 }

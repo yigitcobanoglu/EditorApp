@@ -36,25 +36,28 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 39);
+            label1.Location = new Point(6, 26);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(90, 15);
+            label1.Size = new Size(125, 21);
             label1.TabIndex = 0;
-            label1.Text = "Aranacak Metin";
+            label1.Text = "Aranacak Metin :";
             // 
             // txtAranan
             // 
             txtAranan.BackColor = SystemColors.ButtonHighlight;
-            txtAranan.Location = new Point(108, 33);
+            txtAranan.Location = new Point(139, 26);
+            txtAranan.Margin = new Padding(4);
             txtAranan.Name = "txtAranan";
-            txtAranan.Size = new Size(290, 23);
+            txtAranan.Size = new Size(326, 29);
             txtAranan.TabIndex = 1;
             // 
             // btnBul
             // 
-            btnBul.Location = new Point(280, 86);
+            btnBul.Location = new Point(343, 63);
+            btnBul.Margin = new Padding(4);
             btnBul.Name = "btnBul";
-            btnBul.Size = new Size(118, 32);
+            btnBul.Size = new Size(110, 35);
             btnBul.TabIndex = 2;
             btnBul.Text = "Bul";
             btnBul.UseVisualStyleBackColor = true;
@@ -62,13 +65,15 @@
             // 
             // FrmBul
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(417, 137);
+            ClientSize = new Size(478, 121);
             Controls.Add(btnBul);
             Controls.Add(txtAranan);
             Controls.Add(label1);
+            Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FrmBul";
